@@ -1,0 +1,61 @@
+package hust.soict.dsai.swing;
+
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class NumberGrid extends JFrame {
+    private static final long serialVersionUID = 1L;
+    private JButton[] btnNumbers = new JButton[10];
+    private JButton btnDelete, btnReset;
+    private JTextField tfDisplay;
+
+    public NumberGrid() {
+        tfDisplay = new JTextField();
+        tfDisplay.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+
+        JPanel panelButtons = new JPanel(new GridLayout(4, 3));
+        addButtons(panelButtons);
+
+        Container cp = getContentPane();
+        cp.setLayout(new BorderLayout());
+        cp.add(tfDisplay, BorderLayout.NORTH);
+        cp.add(panelButtons, BorderLayout.CENTER);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Number Grid");
+        setSize(200, 200);
+        setVisible(true);
+    }
+
+    void addButtons(JPanel panelButtons) {
+        ButtonListener btnListener = new ButtonListener(tfDisplay);
+
+        for (int i = 0; i < 9; i++) {
+            btnNumbers[i] = new JButton(String.valueOf(i +1));  
+            panelButtons.add(btnNumbers[i]);
+            btnNumbers[i].addActionListener(btnListener);  // Thêm listener cho nút
+        }
+
+        btnDelete = new JButton("DEL");
+        panelButtons.add(btnDelete);
+        btnDelete.addActionListener(btnListener);
+       
+        btnNumbers[0] = new JButton(String.valueOf(0));  
+        panelButtons.add(btnNumbers[0]);
+        btnNumbers[0].addActionListener(btnListener);
+        
+        btnReset = new JButton("C");
+        panelButtons.add(btnReset);
+        btnReset.addActionListener(btnListener);
+    }
+
+    public static void main(String[] args) {
+        new NumberGrid();  // Tạo và hiển thị giao diện NumberGrid
+    }
+}
